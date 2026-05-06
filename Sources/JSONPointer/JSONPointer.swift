@@ -7,14 +7,12 @@
 /// URI Fragment form) but does not bundle a JSON value type. Pair with
 /// whatever JSON representation you already use; iterate ``tokens`` and walk
 /// your tree.
-public struct JSONPointer: Sendable, CustomStringConvertible {
+public struct JSONPointer: Sendable, Hashable, CustomStringConvertible {
     /// Decoded reference tokens. Empty array is the root pointer (``"" ``).
-    /// Storage placeholder until ``Token`` lands in Task 6; replace with
-    /// `[Token]` and reinstate `Hashable` then.
-    public let tokens: [String]
+    public let tokens: [Token]
 
     /// Build directly from already-decoded tokens.
-    public init(tokens: [String]) {
+    public init(tokens: [Token]) {
         self.tokens = tokens
     }
 
