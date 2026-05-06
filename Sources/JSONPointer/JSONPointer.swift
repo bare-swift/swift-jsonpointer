@@ -8,7 +8,7 @@
 /// whatever JSON representation you already use; iterate ``tokens`` and walk
 /// your tree.
 public struct JSONPointer: Sendable, Hashable, CustomStringConvertible {
-    /// Decoded reference tokens. Empty array is the root pointer (``"" ``).
+    /// Decoded reference tokens. Empty array is the root pointer (the empty string).
     public let tokens: [Token]
 
     /// Build directly from already-decoded tokens.

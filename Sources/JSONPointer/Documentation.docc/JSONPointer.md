@@ -32,7 +32,7 @@ for token in p.tokens {
 - ``JSONPointer/tokens``
 - ``JSONPointer/description``
 - ``JSONPointer/uriFragment``
-- ``JSONPointer/appending(_:)-(Token)``
+- ``JSONPointer/appending(_:)-(JSONPointer.Token)``
 - ``JSONPointer/appending(_:)-(String)``
 
 ### Token
