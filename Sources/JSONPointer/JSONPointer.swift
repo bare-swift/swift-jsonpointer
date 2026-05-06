@@ -57,6 +57,21 @@ public struct JSONPointer: Sendable, Hashable, CustomStringConvertible {
         self.tokens = tokens
     }
 
+    /// Parse the URI Fragment representation of an RFC 6901 pointer (§6).
+    ///
+    /// The string must start with `#`. After the `#`, the remainder is
+    /// percent-decoded into a UTF-8 byte sequence which is then parsed as a
+    /// standard pointer string.
+    public init(uriFragment: String) throws(JSONPointerError) {
+        guard uriFragment.utf8.first == 0x23 else {
+            throw .missingFragmentMarker
+        }
+        let body = uriFragment.dropFirst()
+        let decoded = try Escaping.percentDecode(body, byteOffsetStart: 1)
+        let inner = try JSONPointer(decoded)
+        self.tokens = inner.tokens
+    }
+
     /// Standard RFC 6901 string form.
     public var description: String {
         if tokens.isEmpty { return "" }
@@ -64,6 +79,21 @@ public struct JSONPointer: Sendable, Hashable, CustomStringConvertible {
         for t in tokens {
             out.append("/")
             out.append(Escaping.encodeStandardToken(t.value))
+        }
+        return out
+    }
+
+    /// URI Fragment representation (RFC 6901 §6).
+    ///
+    /// Begins with `#`. Each token is first re-encoded with `~0`/`~1`
+    /// (standard form) and then URI-percent-encoded.
+    public var uriFragment: String {
+        if tokens.isEmpty { return "#" }
+        var out = "#"
+        for t in tokens {
+            out.append("/")
+            let escaped = Escaping.encodeStandardToken(t.value)
+            out.append(Escaping.percentEncode(escaped))
         }
         return out
     }
