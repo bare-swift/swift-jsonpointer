@@ -83,6 +83,16 @@ public struct JSONPointer: Sendable, Hashable, CustomStringConvertible {
         return out
     }
 
+    /// New pointer with `token` appended.
+    public func appending(_ token: Token) -> JSONPointer {
+        JSONPointer(tokens: tokens + [token])
+    }
+
+    /// New pointer with `Token(string)` appended.
+    public func appending(_ string: String) -> JSONPointer {
+        JSONPointer(tokens: tokens + [Token(string)])
+    }
+
     /// URI Fragment representation (RFC 6901 §6).
     ///
     /// Begins with `#`. Each token is first re-encoded with `~0`/`~1`
