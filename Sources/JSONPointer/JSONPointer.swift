@@ -1,8 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 // Copyright (c) 2026 The bare-swift Project Authors.
 
-/// JSONPointer — replace this doc with a one-line description of the module.
-public enum JSONPointer {
-    // TODO: implement the module's public API here.
-    // Remove this enum and replace with real types as the implementation grows.
+/// Sendable, Foundation-free RFC 6901 JSON Pointer.
+///
+/// JSON-tree agnostic: parses and formats pointer strings (standard form and
+/// URI Fragment form) but does not bundle a JSON value type. Pair with
+/// whatever JSON representation you already use; iterate ``tokens`` and walk
+/// your tree.
+public struct JSONPointer: Sendable, Hashable, CustomStringConvertible {
+    /// Decoded reference tokens. Empty array is the root pointer (``"" ``).
+    public let tokens: [Token]
+
+    /// Build directly from already-decoded tokens.
+    public init(tokens: [Token]) {
+        self.tokens = tokens
+    }
+
+    /// Standard RFC 6901 string form. Filled in once parser/formatter land.
+    public var description: String { "" }
 }
